@@ -7,12 +7,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Brand</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
-            <p class="navbar-text"><a href="/" class="danger navbar-link">Doctor</a></p>
-            <p class="navbar-text"><a href="/patient.php" class="danger navbar-link">Patient</a></p>
-            <p class="navbar-text"><a href="/hospital.php" class="danger navbar-link">Hospital</a></p>
+            <p class="navbar-text"><a href="index.php" class="danger navbar-link">Doctor</a></p>
+            <p class="navbar-text"><a href="patient.php" class="danger navbar-link">Patient</a></p>
+            <p class="navbar-text"><a href="hospital.php" class="danger navbar-link">Hospital</a></p>
         </div>
     </div>
 </nav>

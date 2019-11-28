@@ -55,11 +55,6 @@ $hospitals = $db_instance->query('SELECT * FROM `hospital`');
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-	<style type="text/css">
-		table td {
-			vertical-align: middle !important;
-		}
 	</style>
 </head>
 <body>
@@ -103,8 +98,6 @@ $hospitals = $db_instance->query('SELECT * FROM `hospital`');
 						<th>Doctor Image</th>
 						<th>First Name</th>
 						<th>Last Name</th>
-						<th>Specialty</th>
-						<th>License Startdate</th>
 						<th>Operation</th>
 					</tr>
 				</thead>
@@ -115,8 +108,6 @@ $hospitals = $db_instance->query('SELECT * FROM `hospital`');
 							echo '<td><img src="' . (empty($doctor['docimage']) ? 'image/default.png' : $doctor['docimage']) . '" width="50" alt="DocImage" class="img-thumbnail" onclick="showImage(\'' . $doctor['licensenumber'] . '\', \'' . $doctor['docimage'] . '\')"></td>';
 							echo '<td>' . $doctor['fname'] . '</td>';
 							echo '<td>' . $doctor['lname'] . '</td>';
-							echo '<td>' . $doctor['specialty'] . '</td>';
-							echo '<td>' . $doctor['license_startdate'] . '</td>';
 							echo '<td><a onclick="view(\'' . $doctor['fname'] . '\', \'' . $doctor['lname'] . '\', \'' . $doctor['specialty'] . '\', \'' . $doctor['licensenumber'] . '\', \'' . $doctor['license_startdate'] . '\', \'' . $doctor['name'] . '\');">View</a> | <a onclick="del(\'' . $doctor['count'] . '\', \'' . $doctor['licensenumber'] . '\')">Delete</a> | <a href="treat.php?doctor=' . $doctor['licensenumber'] . '">Treating</a></td>';
 							echo '</tr>';
 						}
