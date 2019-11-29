@@ -2,6 +2,7 @@
 require 'Db.class.php';
 $db_instance = new Db();
 
+// update the doctor's image with a image URL on the internet
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$docimage = $_POST['docimage'];
 	$doctor = $_POST['doctor'];

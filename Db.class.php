@@ -19,9 +19,8 @@ class DB
     /**
      *   Default Constructor 
      *
-     *  1. Instantiate Log class.
-     *  2. Connect to database.
-     *  3. Creates the parameter array.
+     *  1. Connect to database.
+     *  2. Creates the parameter array.
      */
     public function __construct()
     {
@@ -35,7 +34,6 @@ class DB
      *  1. Reads the database settings from a ini file. 
      *  2. Puts  the ini content into the settings array.
      *  3. Tries to connect to the database.
-     *  4. If connection failed, exception is displayed and a log file gets created.
      */
     private function Connect()
     {
@@ -47,19 +45,13 @@ class DB
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ));
 
-            # We can now log any exceptions on Fatal error. 
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            # Disable emulation of prepared statements, use REAL prepared statements instead.
-            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
             # Connection succeeded, set the boolean to true.
             $this->bConnected = true;
         }
         catch (PDOException $e) {
-            # Write into log
-            echo $this->ExceptionLog($e->getMessage());
-            die();
+            # Throw the Exception
+            throw new Exception($e->getMessage());
         }
     }
     /*
@@ -117,10 +109,8 @@ class DB
             $this->sQuery->execute();
         }
         catch (PDOException $e) {
-            # Write into log and display Exception
+            # Throw the Exception
             throw new Exception($e->getMessage());
-            // echo $this->ExceptionLog($e->getMessage(), $query);
-            // die();
         }
 
         # Reset the parameters
@@ -181,79 +171,6 @@ class DB
             return NULL;
         }
     }
-
-    /**
-     *  Returns the last inserted id.
-     *  @return string
-     */
-    public function lastInsertId()
-    {
-        return $this->pdo->lastInsertId();
-    }
-
-    /**
-     * Starts the transaction
-     * @return boolean, true on success or false on failure
-     */
-    public function beginTransaction()
-    {
-        return $this->pdo->beginTransaction();
-    }
-
-    /**
-     *  Execute Transaction
-     *  @return boolean, true on success or false on failure
-     */
-    public function executeTransaction()
-    {
-        return $this->pdo->commit();
-    }
-
-    /**
-     *  Rollback of Transaction
-     *  @return boolean, true on success or false on failure
-     */
-    public function rollBack()
-    {
-        return $this->pdo->rollBack();
-    }
-
-    /**
-     *  Returns an array which represents a column from the result set 
-     *
-     *  @param  string $query
-     *  @param  array  $params
-     *  @return array
-     */
-    public function column($query, $params = null)
-    {
-        $this->Init($query, $params);
-        $Columns = $this->sQuery->fetchAll(PDO::FETCH_NUM);
-
-        $column = null;
-
-        foreach ($Columns as $cells) {
-            $column[] = $cells[0];
-        }
-
-        return $column;
-
-    }
-    /**
-     *  Returns an array which represents a row from the result set 
-     *
-     *  @param  string $query
-     *  @param  array  $params
-     *      @param  int    $fetchmode
-     *  @return array
-     */
-    public function row($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
-    {
-        $this->Init($query, $params);
-        $result = $this->sQuery->fetch($fetchmode);
-        $this->sQuery->closeCursor(); // Frees up the connection to the server so that other SQL statements may be issued,
-        return $result;
-    }
     /**
      *  Returns the value of one single field/column
      *
@@ -267,26 +184,6 @@ class DB
         $result = $this->sQuery->fetchColumn();
         $this->sQuery->closeCursor(); // Frees up the connection to the server so that other SQL statements may be issued
         return $result;
-    }
-    /** 
-     * Writes the log and returns the exception
-     *
-     * @param  string $message
-     * @param  string $sql
-     * @return string
-     */
-    private function ExceptionLog($message, $sql = "")
-    {
-        $exception = 'Unhandled Exception. <br />';
-
-
-        if (!empty($sql)) {
-            # Add the Raw SQL to the Log
-            $message .= "\r\nRaw SQL : " . $sql;
-        }
-        $exception .= $message;
-        $exception .= "<br /> You can find the error back in the log.";
-        return $exception;
     }
 }
 ?>

@@ -2,6 +2,7 @@
 require 'Db.class.php';
 $db_instance = new Db();
 
+// update hospital name by code
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$code = $_POST['code'];
 	$name = $_POST['name'];

@@ -1,8 +1,3 @@
-<?php
-require 'Db.class.php';
-$db_instance = new Db();
-
-?>
 <!DOCTYPE html>
 <html>
 <head>

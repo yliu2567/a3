@@ -2,6 +2,7 @@
 require 'Db.class.php';
 $db_instance = new Db();
 
+// add a new doctor
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$db_instance->bindMore($_POST);
 	try

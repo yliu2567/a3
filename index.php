@@ -29,9 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     $orderBy = ' fname asc';
 }
+// display all doctors with sorting by user's selected
 $results = $db_instance->query('SELECT * FROM `doctor` LEFT JOIN `hospital` ON `works_at` = `code` ' . $where . ' ORDER BY ' . $orderBy);
 $doctors = [];
 foreach ($results as $result) {
+        // current doctor is treating patient or not
 	$count = $db_instance->single('SELECT COUNT(*) FROM `treats` WHERE `treated_by` = \'' . $result['licensenumber'] . '\'');
 	if ($has_no_patient && $count) {
 		continue;
